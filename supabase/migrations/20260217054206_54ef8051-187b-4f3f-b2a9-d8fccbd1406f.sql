@@ -1,0 +1,1 @@
+ALTER TABLE public.form_submissions ADD COLUMN archived boolean NOT NULL DEFAULT false;
