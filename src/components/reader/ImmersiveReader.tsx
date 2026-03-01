@@ -142,8 +142,14 @@ const ImmersiveReader = ({ pages, coverUrl, title, isNewsletter = false, publica
   }, [pdfUrl, title]);
 
   // For newsletters, never fall back to coverUrl — pages must come from the PDF
-  const allPages = isNewsletter ? (pages.length > 0 ? pages : []) : (pages.length > 0 ? pages : [coverUrl]);
+  const TRANSPARENT_PIXEL = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
+  // Always add ghost page to ensure the cover appears isolated as a right-hand page
+  const needsGhostPage = !isNewsletter;
+
+  const basePages = isNewsletter ? (pages.length > 0 ? pages : []) : (pages.length > 0 ? pages : [coverUrl]);
+  const allPages = needsGhostPage ? [TRANSPARENT_PIXEL, ...basePages] : basePages;
   const totalPages = allPages.length;
+  const actualTotalPages = needsGhostPage ? totalPages - 1 : totalPages;
 
   useEffect(() => {
     let cancelled = false;
@@ -203,7 +209,13 @@ const ImmersiveReader = ({ pages, coverUrl, title, isNewsletter = false, publica
     setCurrentPage(e.data);
   }, []);
 
-  const getPageLabel = () => `Página ${currentPage + 1} de ${totalPages}`;
+  const getPageLabel = () => {
+    if (needsGhostPage) {
+      const displayPage = currentPage === 0 ? 1 : currentPage;
+      return `Página ${displayPage} de ${actualTotalPages}`;
+    }
+    return `Página ${currentPage + 1} de ${actualTotalPages}`;
+  };
 
   // Newsletter: vertical scroll layout, no flipbook
   if (isNewsletter) {
@@ -264,7 +276,7 @@ const ImmersiveReader = ({ pages, coverUrl, title, isNewsletter = false, publica
               {allPages.map((page, index) => (
                 <div
                   key={index}
-                  
+
                   className="w-full shadow-lg rounded-sm overflow-hidden bg-white"
                   style={{ maxWidth: "800px" }}
                 >
@@ -279,7 +291,7 @@ const ImmersiveReader = ({ pages, coverUrl, title, isNewsletter = false, publica
             </div>
           )}
         </div>
-        
+
       </div>
     );
   }
@@ -312,10 +324,11 @@ const ImmersiveReader = ({ pages, coverUrl, title, isNewsletter = false, publica
             {/* Flipbook wrapper */}
             <div
               style={{
-                width: !isMobile && currentPage <= 1 ? dimensions.width : undefined,
-                height: !isMobile && currentPage <= 1 ? dimensions.height : undefined,
-                overflow: !isMobile && currentPage <= 1 ? "hidden" : undefined,
-                transition: "width 0.4s ease",
+                transform: needsGhostPage && currentPage === 0
+                  ? `translateX(-${dimensions.width / 2}px)`
+                  : 'translateX(0)',
+                transition: "transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)",
+                position: "relative",
               }}
             >
               <div
@@ -391,23 +404,26 @@ const ImmersiveReader = ({ pages, coverUrl, title, isNewsletter = false, publica
         <div className="flex items-center gap-3">
           <span className="text-sm text-muted-foreground">{getPageLabel()}</span>
           <div className="flex gap-1">
-            {totalPages <= 40 &&
-              allPages.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => flipBookRef.current?.pageFlip()?.turnToPage(index)}
-                  className={cn(
-                    "h-2 rounded-full transition-all",
-                    currentPage === index
-                      ? "w-6 bg-accent"
-                      : "w-2 bg-border hover:bg-muted-foreground/30"
-                  )}
-                />
-              ))}
+            {actualTotalPages <= 40 &&
+              basePages.map((_, i) => {
+                const index = needsGhostPage ? i + 1 : i;
+                const isCurrent = currentPage === index || (needsGhostPage && currentPage === 0 && index === 1);
+
+                return (
+                  <button
+                    key={index}
+                    onClick={() => flipBookRef.current?.pageFlip()?.turnToPage(index)}
+                    className={cn(
+                      "h-2 rounded-full transition-all",
+                      isCurrent
+                        ? "w-6 bg-accent"
+                        : "w-2 bg-border hover:bg-muted-foreground/30"
+                    )}
+                    title={`Página ${i + 1}`}
+                  />
+                );
+              })}
           </div>
-          <span className="text-sm text-muted-foreground">
-            {currentPage + 1} / {totalPages}
-          </span>
         </div>
 
         <div className="flex items-center gap-2">
@@ -448,7 +464,7 @@ const ImmersiveReader = ({ pages, coverUrl, title, isNewsletter = false, publica
           {publicationId && <PublicationRating publicationId={publicationId} />}
         </div>
       </div>
-      
+
     </div>
   );
 };
