@@ -19,7 +19,7 @@ import {
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { useEffect, useRef, useState } from "react";
-import logoMsgas from "@/assets/logo-nova.svg";
+import logoMsgas from "@/assets/Logo-principal.svg";
 import FeedbackDialog from "@/components/FeedbackDialog";
 import {
   Dialog,
@@ -44,14 +44,14 @@ const Header = ({ searchValue, onSearchChange, minimal = false }: HeaderProps) =
   const [profileName, setProfileName] = useState<string | null>(null);
   const [feedbackOpen, setFeedbackOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
-   const [avatarDialogOpen, setAvatarDialogOpen] = useState(false);
-   const [avatarBlob, setAvatarBlob] = useState<Blob | null>(null);
-   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
-   const [avatarUploading, setAvatarUploading] = useState(false);
-   const avatarInputRef = useRef<HTMLInputElement | null>(null);
-   const [avatarCropSrc, setAvatarCropSrc] = useState<string | null>(null);
-   const [avatarCropOpen, setAvatarCropOpen] = useState(false);
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+  const [avatarDialogOpen, setAvatarDialogOpen] = useState(false);
+  const [avatarBlob, setAvatarBlob] = useState<Blob | null>(null);
+  const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
+  const [avatarUploading, setAvatarUploading] = useState(false);
+  const avatarInputRef = useRef<HTMLInputElement | null>(null);
+  const [avatarCropSrc, setAvatarCropSrc] = useState<string | null>(null);
+  const [avatarCropOpen, setAvatarCropOpen] = useState(false);
 
   useEffect(() => {
     if (!user) return;
@@ -190,7 +190,7 @@ const Header = ({ searchValue, onSearchChange, minimal = false }: HeaderProps) =
           <img
             src={logoMsgas}
             alt="MSGás"
-            className="h-16 w-auto transition-transform group-hover:scale-105"
+            className="h-16 w-auto transition-transform group-hover:scale-105 mt-[5px]"
           />
         </Link>
 

@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import logoLogin from "@/assets/logo-nova.svg";
+import logoLogin from "@/assets/Logo-principal.svg";
 import loginBg from "@/assets/login-bg.jpg";
 
 type AuthMode = "login" | "register" | "forgot-password" | "reset-sent";
@@ -19,7 +19,7 @@ const GERENCIAS: Record<string, string[]> = {
   PRES: ["GEJUR", "ASPRES", "GEPES", "ASGRC"]
 };
 
-const DIRECTOR_MAP: Record<string, {diretoria: string;gerencia: string;}> = {
+const DIRECTOR_MAP: Record<string, { diretoria: string; gerencia: string; }> = {
   "cristiane@msgas.com.br": { diretoria: "PRES", gerencia: "PRES" },
   "gisele@msgas.com.br": { diretoria: "DAF", gerencia: "DAF" },
   "fabricio@msgas.com.br": { diretoria: "DTC", gerencia: "DTC" }
@@ -86,25 +86,25 @@ const Login = () => {
     e.preventDefault();
     setIsLoading(true);
     setErrorMessage("");
-    if (!validateEmail(email)) {setErrorMessage("Apenas emails @msgas.com.br são permitidos.");setIsLoading(false);return;}
+    if (!validateEmail(email)) { setErrorMessage("Apenas emails @msgas.com.br são permitidos."); setIsLoading(false); return; }
     try {
       const { error } = await supabase.auth.signInWithPassword({ email: emailLower, password });
       if (error) throw error;
       toast({ title: "Login realizado!", description: "Bem-vindo de volta." });
     } catch (error: any) {
       const msg = error.message === "Invalid login credentials" ? "Email ou senha incorretos." :
-      error.message === "Email not confirmed" ? "Confirme seu email antes de fazer login." :
-      `Erro: ${error.message}`;
+        error.message === "Email not confirmed" ? "Confirme seu email antes de fazer login." :
+          `Erro: ${error.message}`;
       setErrorMessage(msg);
-    } finally {setIsLoading(false);}
+    } finally { setIsLoading(false); }
   };
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     setErrorMessage("");
-    if (!validateEmail(email)) {setErrorMessage("Apenas emails @msgas.com.br são permitidos.");setIsLoading(false);return;}
-    if (!name.trim() || !diretoria || !gerencia) {setErrorMessage("Preencha todos os campos.");setIsLoading(false);return;}
+    if (!validateEmail(email)) { setErrorMessage("Apenas emails @msgas.com.br são permitidos."); setIsLoading(false); return; }
+    if (!name.trim() || !diretoria || !gerencia) { setErrorMessage("Preencha todos os campos."); setIsLoading(false); return; }
     try {
       const { data, error } = await supabase.auth.signUp({
         email: emailLower,
@@ -127,19 +127,19 @@ const Login = () => {
       setMode("login");
     } catch (error: any) {
       setErrorMessage(error.message.includes("already registered") ? "Este email já está cadastrado." : `Erro: ${error.message}`);
-    } finally {setIsLoading(false);}
+    } finally { setIsLoading(false); }
   };
 
   const handleForgotPassword = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     setErrorMessage("");
-    if (!validateEmail(email)) {setErrorMessage("Apenas emails @msgas.com.br são permitidos.");setIsLoading(false);return;}
+    if (!validateEmail(email)) { setErrorMessage("Apenas emails @msgas.com.br são permitidos."); setIsLoading(false); return; }
     try {
       const { error } = await supabase.auth.resetPasswordForEmail(emailLower, { redirectTo: `${window.location.origin}/login?reset=true` });
       if (error) throw error;
       setMode("reset-sent");
-    } catch (error: any) {setErrorMessage(`Erro: ${error.message}`);} finally {setIsLoading(false);}
+    } catch (error: any) { setErrorMessage(`Erro: ${error.message}`); } finally { setIsLoading(false); }
   };
 
   const availableGerencias = diretoria ? GERENCIAS[diretoria] || [] : [];
@@ -155,7 +155,7 @@ const Login = () => {
         <div className="absolute inset-0 bg-primary/85" />
         <div className="relative z-10 p-8 lg:p-16 max-w-lg text-center lg:text-left">
           <motion.div initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }}>
-            
+
 
 
 
@@ -166,7 +166,6 @@ const Login = () => {
             <p className="text-primary-foreground/80 text-lg mb-8 leading-relaxed">
               Acesse o acervo completo de comunicação interna da MSGás. Newsletters, jornais e publicações institucionais em um só lugar.
             </p>
-            
 
 
 
@@ -174,7 +173,8 @@ const Login = () => {
 
 
 
-            
+
+
 
 
 
@@ -203,7 +203,7 @@ const Login = () => {
 
           <div className="space-y-6">
             {mode === "login" &&
-            <form onSubmit={handleLogin} className="space-y-4">
+              <form onSubmit={handleLogin} className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="email">Email</Label>
                   <div className="relative">
@@ -224,14 +224,14 @@ const Login = () => {
                   Entrar
                 </Button>
                 <div className="flex justify-between text-sm">
-                  <button type="button" onClick={() => {setMode("forgot-password");setErrorMessage("");}} className="text-muted-foreground hover:text-foreground transition-colors">Esqueci minha senha</button>
-                  <button type="button" onClick={() => {setMode("register");setErrorMessage("");}} className="text-primary hover:text-primary/80 font-medium transition-colors">Criar conta</button>
+                  <button type="button" onClick={() => { setMode("forgot-password"); setErrorMessage(""); }} className="text-muted-foreground hover:text-foreground transition-colors">Esqueci minha senha</button>
+                  <button type="button" onClick={() => { setMode("register"); setErrorMessage(""); }} className="text-primary hover:text-primary/80 font-medium transition-colors">Criar conta</button>
                 </div>
               </form>
             }
 
             {mode === "register" &&
-            <form onSubmit={handleRegister} className="space-y-4">
+              <form onSubmit={handleRegister} className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="reg-name">Nome completo</Label>
                   <div className="relative">
@@ -265,7 +265,7 @@ const Login = () => {
                   </Select>
                 </div>
                 {diretoria &&
-              <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} className="space-y-2">
+                  <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} className="space-y-2">
                     <Label>Gerência / Setor</Label>
                     <Select value={gerencia} onValueChange={setGerencia} disabled={isDirector}>
                       <SelectTrigger><SelectValue placeholder="Selecione a gerência" /></SelectTrigger>
@@ -275,20 +275,20 @@ const Login = () => {
                       </SelectContent>
                     </Select>
                   </motion.div>
-              }
+                }
                 {errorMessage && <ErrorBanner message={errorMessage} />}
                 <Button type="submit" className="w-full" size="lg" disabled={isLoading}>
                   {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <ArrowRight className="mr-2 h-4 w-4" />}
                   Criar conta
                 </Button>
-                <button type="button" onClick={() => {setMode("login");setErrorMessage("");}} className="w-full text-sm text-muted-foreground hover:text-foreground transition-colors">
+                <button type="button" onClick={() => { setMode("login"); setErrorMessage(""); }} className="w-full text-sm text-muted-foreground hover:text-foreground transition-colors">
                   <ArrowLeft className="inline-block h-3 w-3 mr-1" /> Já tenho conta
                 </button>
               </form>
             }
 
             {mode === "forgot-password" &&
-            <form onSubmit={handleForgotPassword} className="space-y-4">
+              <form onSubmit={handleForgotPassword} className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="reset-email">Email cadastrado</Label>
                   <div className="relative">
@@ -301,14 +301,14 @@ const Login = () => {
                   {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Mail className="mr-2 h-4 w-4" />}
                   Enviar link de recuperação
                 </Button>
-                <button type="button" onClick={() => {setMode("login");setErrorMessage("");}} className="w-full text-sm text-muted-foreground hover:text-foreground transition-colors">
+                <button type="button" onClick={() => { setMode("login"); setErrorMessage(""); }} className="w-full text-sm text-muted-foreground hover:text-foreground transition-colors">
                   <ArrowLeft className="inline-block h-3 w-3 mr-1" /> Voltar ao login
                 </button>
               </form>
             }
 
             {mode === "reset-sent" &&
-            <div className="space-y-4 text-center">
+              <div className="space-y-4 text-center">
                 <div className="mx-auto w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">
                   <Mail className="h-8 w-8 text-primary" />
                 </div>
@@ -316,7 +316,7 @@ const Login = () => {
                   <h3 className="font-semibold text-lg">Verifique seu email</h3>
                   <p className="text-sm text-muted-foreground mt-1">Enviamos um link para <strong>{email}</strong></p>
                 </div>
-                <Button variant="outline" className="w-full" onClick={() => {setMode("login");setErrorMessage("");}}>
+                <Button variant="outline" className="w-full" onClick={() => { setMode("login"); setErrorMessage(""); }}>
                   <ArrowLeft className="mr-2 h-4 w-4" /> Voltar ao login
                 </Button>
               </div>
@@ -324,7 +324,7 @@ const Login = () => {
           </div>
 
           <p className="text-center text-sm text-muted-foreground mt-8">
-            
+
 
 
           </p>
@@ -334,9 +334,9 @@ const Login = () => {
 
 };
 
-const ErrorBanner = ({ message }: {message: string;}) =>
-<motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
-className="rounded-lg bg-destructive/10 border border-destructive/20 p-3 text-sm text-destructive">
+const ErrorBanner = ({ message }: { message: string; }) =>
+  <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
+    className="rounded-lg bg-destructive/10 border border-destructive/20 p-3 text-sm text-destructive">
     {message}
   </motion.div>;
 

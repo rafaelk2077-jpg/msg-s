@@ -19,7 +19,7 @@ import EditPublicationDialog from "./EditPublicationDialog";
 import PublicationReadStats from "./PublicationReadStats";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import logoMsgas from "@/assets/logo-msgas-branca.svg";
+import logoMsgas from "@/assets/Logo-principal.svg";
 
 const PUBLISHED_BASE_URL = "https://ms-gazeta.lovable.app";
 

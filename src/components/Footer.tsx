@@ -1,4 +1,4 @@
-import logoMsgas from "@/assets/logo-nova.svg";
+import logoMsgas from "@/assets/Logo-principal.svg";
 
 const Footer = () => {
   return (

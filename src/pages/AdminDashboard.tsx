@@ -16,7 +16,7 @@ import { usePublicationActions } from "@/hooks/usePublicationActions";
 import UploadForm from "@/components/admin/UploadForm";
 import PublicationsTable from "@/components/admin/PublicationsTable";
 import { FeedbackView, CrachaView } from "@/components/admin/SubmissionsView";
-import logoMsgas from "@/assets/logo-nova.svg";
+import logoMsgas from "@/assets/Logo-principal.svg";
 
 const Admin = () => {
   const navigate = useNavigate();

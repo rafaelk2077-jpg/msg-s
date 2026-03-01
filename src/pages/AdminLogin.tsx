@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardDescription } from "@/components/ui/card";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import logoLogin from "@/assets/logo-nova.svg";
+import logoLogin from "@/assets/Logo-principal.svg";
 
 type AuthMode = "login" | "forgot-password" | "reset-sent";
 
@@ -22,12 +22,12 @@ const AdminLogin = () => {
 
   useEffect(() => {
     let mounted = true;
-    
+
     const checkAuth = async () => {
       try {
         console.log("[AdminLogin] Checking existing session...");
         const { data: { session } } = await supabase.auth.getSession();
-        
+
         if (!session || !mounted) {
           console.log("[AdminLogin] No session found");
           return;
@@ -54,12 +54,12 @@ const AdminLogin = () => {
         console.error("[AdminLogin] Auth check error:", error);
       }
     };
-    
+
     checkAuth();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       console.log("[AdminLogin] Auth state changed:", event);
-      
+
       if (event === "SIGNED_IN" && session && mounted) {
         const { data: roles } = await supabase
           .from("user_roles")
@@ -88,7 +88,7 @@ const AdminLogin = () => {
       "User not found": "Usuário não encontrado.",
       "Invalid email": "Email inválido.",
     };
-    
+
     return errorMap[error] || `Erro de autenticação: ${error}`;
   };
 
@@ -99,7 +99,7 @@ const AdminLogin = () => {
 
     try {
       console.log("[Login] Attempting login for:", email);
-      
+
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
@@ -113,7 +113,7 @@ const AdminLogin = () => {
       console.log("[Login] Auth successful, user:", data.user.id);
 
       // Check if user is admin with timeout
-      const timeoutPromise = new Promise((_, reject) => 
+      const timeoutPromise = new Promise((_, reject) =>
         setTimeout(() => reject(new Error("Timeout ao verificar permissões")), 10000)
       );
 
