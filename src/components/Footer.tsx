@@ -14,11 +14,12 @@ const Footer = () => {
           </div>
 
           <div className="flex flex-col items-center gap-1 text-center md:items-end md:text-right">
-            <p className="text-sm text-muted-foreground">
-              Todas as edições disponíveis para leitura digital
-            </p>
+
             <p className="text-xs text-muted-foreground/70">
               © {new Date().getFullYear()} Todos os direitos reservados
+            </p>
+            <p className="text-xs text-muted-foreground/50">
+              Desenvolvido por Studio Kosak
             </p>
           </div>
         </div>
