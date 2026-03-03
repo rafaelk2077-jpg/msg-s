@@ -42,16 +42,11 @@ const PublicationCard = ({ publication, featured = false, index = 0 }: Publicati
 
             {/* Content */}
             <div className="flex flex-col justify-center p-6 md:p-8 lg:p-12">
-              {publication.theme &&
-              <span className="mb-3 text-sm font-medium uppercase tracking-wider text-secondary-foreground">
-                  {publication.theme}
-                </span>
-              }
               <h2 className="mb-4 font-display text-3xl font-bold leading-tight md:text-4xl lg:text-5xl">
                 {publication.title}
               </h2>
               {publication.description &&
-              <p className="mb-6 text-lg text-muted-foreground leading-relaxed">
+                <p className="mb-6 text-lg text-muted-foreground leading-relaxed">
                   {publication.description}
                 </p>
               }
@@ -111,11 +106,6 @@ const PublicationCard = ({ publication, featured = false, index = 0 }: Publicati
 
           {/* Content */}
           <div className="p-4">
-            {publication.theme &&
-            <span className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-secondary-foreground">
-                {publication.theme}
-              </span>
-            }
             <h3 className="mb-2 font-display text-lg font-semibold leading-tight line-clamp-2 group-hover:text-accent transition-colors">
               {publication.title}
             </h3>

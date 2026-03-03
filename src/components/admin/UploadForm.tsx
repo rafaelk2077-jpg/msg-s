@@ -33,7 +33,6 @@ interface UploadFormProps {
 interface FormData {
   title: string;
   description: string;
-  theme: string;
   type: string;
   date: string;
   pdfFile: File | null;
@@ -44,7 +43,6 @@ interface FormData {
 const INITIAL_FORM: FormData = {
   title: "",
   description: "",
-  theme: "",
   type: "",
   date: new Date().toISOString().split("T")[0],
   pdfFile: null,
@@ -98,7 +96,7 @@ const UploadForm = ({ onPublished }: UploadFormProps) => {
     timeoutMs: number,
   ) => {
     console.log(`[Upload] Starting: ${path}, size: ${file instanceof File ? file.size : 'blob'}`);
-    
+
     const uploadPromise = supabase.storage
       .from("publications")
       .upload(path, file, {
@@ -116,7 +114,7 @@ const UploadForm = ({ onPublished }: UploadFormProps) => {
       console.error(`[Upload] Error ${path}:`, error);
       throw error;
     }
-    
+
     console.log(`[Upload] Success: ${path}`);
     return data;
   };
@@ -326,7 +324,6 @@ const UploadForm = ({ onPublished }: UploadFormProps) => {
         .insert({
           title: formData.title,
           description: formData.description || null,
-          theme: formData.theme || null,
           type: formData.type || null,
           published_at: formData.date,
           year,
@@ -504,19 +501,6 @@ const UploadForm = ({ onPublished }: UploadFormProps) => {
                 ))}
               </SelectContent>
             </Select>
-          </div>
-
-          {/* Theme */}
-          <div className="space-y-2">
-            <Label htmlFor="theme">Categoria (opcional)</Label>
-            <Input
-              id="theme"
-              placeholder="Ex: Institucional, Tecnologia..."
-              value={formData.theme}
-              onChange={(e) =>
-                setFormData((prev) => ({ ...prev, theme: e.target.value }))
-              }
-            />
           </div>
 
           {/* Date */}

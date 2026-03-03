@@ -32,7 +32,6 @@ const EditPublicationDialog = ({
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [type, setType] = useState("");
-  const [theme, setTheme] = useState("");
   const [pages, setPages] = useState<string[]>([]);
   const [saving, setSaving] = useState(false);
   const [addingPages, setAddingPages] = useState(false);
@@ -44,7 +43,6 @@ const EditPublicationDialog = ({
       setTitle(publication.title);
       setDescription(publication.description || "");
       setType(publication.type || "");
-      setTheme(publication.theme || "");
       setPages([...publication.pages]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -137,7 +135,6 @@ const EditPublicationDialog = ({
           title: title.trim(),
           description: description.trim() || null,
           type: type || null,
-          theme: theme.trim() || null,
           pages,
           page_count: pages.length || 1,
         })
@@ -181,31 +178,19 @@ const EditPublicationDialog = ({
               />
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
-              {/* Type */}
-              <div className="space-y-2">
-                <Label>Tipo</Label>
-                <Select value={type} onValueChange={setType}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Selecione" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {PUBLICATION_TYPES.map((t) => (
-                      <SelectItem key={t} value={t}>{t}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              {/* Theme */}
-              <div className="space-y-2">
-                <Label>Categoria</Label>
-                <Input
-                  value={theme}
-                  onChange={(e) => setTheme(e.target.value)}
-                  placeholder="Ex: Institucional"
-                />
-              </div>
+            {/* Type */}
+            <div className="space-y-2">
+              <Label>Tipo</Label>
+              <Select value={type} onValueChange={setType}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Selecione" />
+                </SelectTrigger>
+                <SelectContent>
+                  {PUBLICATION_TYPES.map((t) => (
+                    <SelectItem key={t} value={t}>{t}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
 
             {/* Pages management */}

@@ -91,7 +91,6 @@ const PublicationsTable = ({
       <p style="margin:0 0 6px;font-size:11px;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:2px;font-weight:600;text-align:left;">Edição fresquinha no ar 🔥</p>
       <h2 style="margin:0 0 10px;font-size:26px;color:#ffffff;line-height:1.3;font-weight:800;">${pub.title}</h2>
       ${pub.description ? `<p style="margin:0 0 14px;font-size:14px;color:rgba(255,255,255,0.85);line-height:1.6;">${pub.description}</p>` : ""}
-      ${pub.theme ? `<span style="display:inline-block;padding:4px 12px;background:rgba(255,255,255,0.15);border-radius:20px;font-size:11px;color:#ffffff;">${pub.theme}</span>` : ""}
     </td>
   </tr>
   <tr>
@@ -190,7 +189,6 @@ const PublicationsTable = ({
                 <p className="font-medium text-sm line-clamp-1">{pub.title}</p>
                 <div className="flex flex-wrap items-center gap-1">
                   {pub.type && <Badge variant="outline" className="text-[10px]">{pub.type}</Badge>}
-                  {pub.theme && <Badge variant="secondary" className="text-[10px] max-w-[120px] truncate">{pub.theme}</Badge>}
                 </div>
                 <div className="flex items-center gap-3 text-xs text-muted-foreground">
                   <span className="flex items-center gap-1">
@@ -227,7 +225,6 @@ const PublicationsTable = ({
             <TableRow>
               <TableHead className="w-8"></TableHead>
               <TableHead>Publicação</TableHead>
-              <TableHead>Tema</TableHead>
               <TableHead>Data</TableHead>
               <TableHead>Páginas</TableHead>
               <TableHead>Nota</TableHead>
@@ -256,9 +253,6 @@ const PublicationsTable = ({
                         </p>
                       </div>
                     </div>
-                  </TableCell>
-                  <TableCell>
-                    {pub.theme && <Badge variant="outline">{pub.theme}</Badge>}
                   </TableCell>
                   <TableCell>
                     <span className="flex items-center gap-1.5 text-sm text-muted-foreground">
@@ -354,11 +348,6 @@ const PublicationsTable = ({
                     <p style={{ margin: "0 0 14px", fontSize: 14, color: "rgba(255,255,255,0.85)", lineHeight: 1.6 }}>
                       {previewPub.description}
                     </p>
-                  )}
-                  {previewPub.theme && (
-                    <span style={{ display: "inline-block", padding: "4px 12px", background: "rgba(255,255,255,0.15)", borderRadius: 20, fontSize: 11, color: "#ffffff" }}>
-                      {previewPub.theme}
-                    </span>
                   )}
                 </div>
                 <div

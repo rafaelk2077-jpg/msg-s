@@ -33,12 +33,6 @@ const Index = () => {
     return unique.sort((a, b) => b - a);
   }, [publications]);
 
-  const themes = useMemo(() => {
-    const unique = [
-      ...new Set(publications.map((p) => p.theme).filter(Boolean)),
-    ];
-    return unique.sort() as string[];
-  }, [publications]);
 
   const types = useMemo(() => {
     const unique = [
@@ -56,7 +50,7 @@ const Index = () => {
     return publications.filter((pub) => {
       if (pub.id === featuredId) return false; // exclude featured
       if (filters.year && pub.year !== filters.year) return false;
-      if (filters.theme && pub.theme !== filters.theme) return false;
+      if (filters.month && pub.publishedAt.getMonth() + 1 !== filters.month) return false;
       if (filters.type && pub.type !== filters.type) return false;
       if (filters.search) {
         const search = filters.search.toLowerCase();
@@ -64,12 +58,10 @@ const Index = () => {
         const matchesDescription = pub.description
           ?.toLowerCase()
           .includes(search);
-        const matchesTheme = pub.theme?.toLowerCase().includes(search);
         const matchesType = pub.type?.toLowerCase().includes(search);
         if (
           !matchesTitle &&
           !matchesDescription &&
-          !matchesTheme &&
           !matchesType
         )
           return false;
@@ -119,7 +111,6 @@ const Index = () => {
                 filters={filters}
                 onFilterChange={setFilters}
                 years={years}
-                themes={themes}
                 types={types}
               />
             </div>

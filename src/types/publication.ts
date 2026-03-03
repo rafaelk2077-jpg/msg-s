@@ -33,7 +33,7 @@ export interface PublicationRow {
 
 export interface PublicationFilter {
   year?: number;
-  theme?: string;
+  month?: number;
   type?: string;
   search?: string;
 }

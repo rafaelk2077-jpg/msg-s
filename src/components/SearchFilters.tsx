@@ -15,18 +15,21 @@ interface SearchFiltersProps {
   filters: PublicationFilter;
   onFilterChange: (filters: PublicationFilter) => void;
   years: number[];
-  themes: string[];
   types: string[];
 }
+
+const MONTHS = [
+  "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+  "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+];
 
 const SearchFilters = ({
   filters,
   onFilterChange,
   years,
-  themes,
   types,
 }: SearchFiltersProps) => {
-  const hasActiveFilters = filters.year || filters.theme || filters.type || filters.search;
+  const hasActiveFilters = filters.year || filters.month || filters.type || filters.search;
 
   const clearFilters = () => {
     onFilterChange({});
@@ -94,22 +97,22 @@ const SearchFilters = ({
         </Select>
 
         <Select
-          value={filters.theme || "all"}
+          value={filters.month?.toString() || "all"}
           onValueChange={(value) =>
             onFilterChange({
               ...filters,
-              theme: value === "all" ? undefined : value,
+              month: value === "all" ? undefined : parseInt(value),
             })
           }
         >
           <SelectTrigger className="w-[160px] h-9 bg-card border-border/50">
-            <SelectValue placeholder="Categoria" />
+            <SelectValue placeholder="Mês" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">Todas as categorias</SelectItem>
-            {themes.map((theme) => (
-              <SelectItem key={theme} value={theme}>
-                {theme}
+            <SelectItem value="all">Todos os meses</SelectItem>
+            {MONTHS.map((month, index) => (
+              <SelectItem key={month} value={(index + 1).toString()}>
+                {month}
               </SelectItem>
             ))}
           </SelectContent>
@@ -166,11 +169,11 @@ const SearchFilters = ({
               </button>
             </Badge>
           )}
-          {filters.theme && (
+          {filters.month && (
             <Badge variant="secondary" className="gap-1">
-              {filters.theme}
+              {MONTHS[filters.month - 1]}
               <button
-                onClick={() => onFilterChange({ ...filters, theme: undefined })}
+                onClick={() => onFilterChange({ ...filters, month: undefined })}
                 className="ml-1 hover:text-destructive"
               >
                 <X className="h-3 w-3" />
