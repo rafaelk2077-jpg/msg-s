@@ -88,8 +88,8 @@ const Index = () => {
 
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="border-b border-border/50 bg-gradient-to-b from-secondary/30 to-background">
-          <div className="container py-12 md:py-16">
+        <section className="bg-gradient-to-b from-secondary/30 to-background">
+          <div className="container pt-12 md:pt-16 pb-6 md:pb-8">
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -139,7 +139,7 @@ const Index = () => {
 
         {/* Archive Section */}
         {publications.length > 1 && (
-          <section className="py-12 md:py-16">
+          <section className="pt-6 md:pt-8 pb-12 md:pb-16">
             <div className="container">
               <div className="mb-8">
                 <h2 className="font-display text-2xl md:text-3xl font-bold mb-2">
